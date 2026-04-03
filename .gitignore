@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Build output
+build/
+*.tsbuildinfo
+
+# Persisted export storage
+.steam-review-exports/
+.steam-forum-exports/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Local environment files
+.env
+.env.*
+
+# Local caches and editor state
+.npm/
+.cursor/
+.DS_Store

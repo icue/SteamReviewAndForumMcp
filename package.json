@@ -1,0 +1,40 @@
+{
+  "name": "steam-review-and-forum-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for Steam reviews, game metadata, and Steam Community discussions",
+  "main": "build/server.js",
+  "type": "module",
+  "bin": {
+    "steam-review-and-forum-mcp": "./build/server.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node build/server.js",
+    "dev": "tsc && node build/server.js",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "steam",
+    "review",
+    "forum",
+    "steamcommunity",
+    "modelcontextprotocol"
+  ],
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.7.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "typescript": "^5.8.2"
+  },
+  "files": [
+    "build/**/*"
+  ],
+  "engines": {
+    "node": ">=22.19.0"
+  }
+}
