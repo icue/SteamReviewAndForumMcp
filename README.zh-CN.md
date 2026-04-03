@@ -50,26 +50,85 @@ npm install
 npm run build
 ```
 
-### 运行服务
+### 仅支持本地 `stdio` 传输
+
+这是一个本地 `stdio` MCP 服务器，不是托管在公网的远程 MCP。因此没有 `https://.../mcp` 这样的地址可直接粘贴到远程连接器中。你的 MCP 客户端需要在本机启动 `node build/server.js`。
+
+### Claude Desktop
+
+Claude Desktop 现在更偏向通过本地 desktop extension 来安装本地 MCP。这个仓库目前提供的是原始本地服务，尚未打包成 `.mcpb` desktop extension，所以当前更直接的接入方式是 Claude Code、Cursor、Windsurf 或 MCP Inspector 等。
+
+### Claude Code
 
 ```bash
-node build/server.js
+claude mcp add steam-review-and-forum -- node <path-to-repo>/build/server.js
 ```
 
-### 添加到 MCP 客户端
+把 `<path-to-repo>` 替换成你本地仓库的绝对路径。
+
+### Cursor
+
+在仓库根目录创建 `.cursor/mcp.json`：
+
+```json
+{
+  "mcpServers": {
+    "steam-review-and-forum": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["<path-to-repo>/build/server.js"]
+    }
+  }
+}
+```
+
+### Windsurf
+
+把下面内容加到 `~/.codeium/windsurf/mcp_config.json`：
 
 ```json
 {
   "mcpServers": {
     "steam-review-and-forum": {
       "command": "node",
-      "args": ["...build/server.js 的路径..."]
+      "args": ["<path-to-repo>/build/server.js"]
     }
   }
 }
 ```
 
-把路径改成本地仓库中 `build/server.js` 的实际位置即可。
+### 其他支持 `stdio` 的 MCP 客户端
+
+大多数本地 MCP 客户端都接受类似这样的配置：
+
+```json
+{
+  "mcpServers": {
+    "steam-review-and-forum": {
+      "command": "node",
+      "args": ["<path-to-repo>/build/server.js"]
+    }
+  }
+}
+```
+
+把 `<path-to-repo>` 替换成你本地仓库的绝对路径。
+
+### MCP Inspector
+
+```bash
+npx @modelcontextprotocol/inspector node build/server.js
+```
+
+请在仓库根目录下运行。
+
+### 手动运行服务
+
+```bash
+node build/server.js
+```
+
+大多数 MCP 客户端会自动帮你拉起这个进程，所以手动运行通常只在调试时才需要。
 
 ## 工具概览
 

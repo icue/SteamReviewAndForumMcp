@@ -50,28 +50,85 @@ npm install
 npm run build
 ```
 
-### Run the Server
+### Local Transport Only
+
+This server runs locally over `stdio`. Unlike hosted MCP servers, there is no `https://.../mcp` endpoint to paste into a remote connector field. Your MCP client needs to launch `node build/server.js` on your machine.
+
+### Claude Desktop
+
+Claude Desktop now favors local desktop extensions for local MCP installs. This repo currently ships a raw local server, not a packaged `.mcpb` desktop extension, so the most direct options today are Claude Code, Cursor, Windsurf, or MCP Inspector.
+
+### Claude Code
 
 ```bash
-node build/server.js
+claude mcp add steam-review-and-forum -- node <path-to-repo>/build/server.js
 ```
 
-### Add It to an MCP Client
+Replace `<path-to-repo>` with the absolute path to your local checkout.
 
-Most MCP clients can use a config like this:
+### Cursor
+
+Create `.cursor/mcp.json` in this repo:
+
+```json
+{
+  "mcpServers": {
+    "steam-review-and-forum": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["<path-to-repo>/build/server.js"]
+    }
+  }
+}
+```
+
+### Windsurf
+
+Add to `~/.codeium/windsurf/mcp_config.json`:
 
 ```json
 {
   "mcpServers": {
     "steam-review-and-forum": {
       "command": "node",
-      "args": ["...path to build/server.js..."]
+      "args": ["<path-to-repo>/build/server.js"]
     }
   }
 }
 ```
 
-Update the path to match where you cloned the repo.
+### Other Stdio-Compatible MCP Clients
+
+Most local MCP clients accept a config shaped like this:
+
+```json
+{
+  "mcpServers": {
+    "steam-review-and-forum": {
+      "command": "node",
+      "args": ["<path-to-repo>/build/server.js"]
+    }
+  }
+}
+```
+
+Replace `<path-to-repo>` with the absolute path to your local checkout.
+
+### MCP Inspector
+
+```bash
+npx @modelcontextprotocol/inspector node build/server.js
+```
+
+Run that from the repo root.
+
+### Run the Server Manually
+
+```bash
+node build/server.js
+```
+
+Most MCP clients will start the server for you, so manual launch is mainly useful for debugging.
 
 ## Tools at a Glance
 
