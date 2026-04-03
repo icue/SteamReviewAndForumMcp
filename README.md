@@ -8,7 +8,7 @@ MCP server for exploring Steam store reviews and community discussion threads, b
 
 It can answer questions like:
 
-- "Summarize the biggest complaints in recent negative reviews."
+- "Summarize the biggest complaints in recent negative reviews for Steam game XXX."
 - "Query reviews that talks about performance, and tell me whether the issue sounds widespread."
 - "Compare launch-period negative reviews with recent positive reviews. What changed?"
 - "Show month-by-month sentiment since release."
