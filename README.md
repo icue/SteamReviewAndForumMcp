@@ -17,6 +17,7 @@ It can answer questions like:
 - "What do long-playtime negative reviewers complain about?"
 - "Compare English reviews with all-language reviews and tell me what differs."
 - "Read recent forum threads and tell me whether controller support is broken."
+- "Based on the reviews from the DLC pages, which DLCs of this game is worth buying?"
 
 ## Key Features
 
@@ -28,7 +29,7 @@ It can answer questions like:
 
    This MCP is good at time-based analysis. You can isolate launch-period noise, compare it against a later period, and see how player priorities shift over time. Monthly and weekly trend buckets make that easy to quantify. This is especially effective when the real question is not just "what are people saying?" but "what changed, when did it change, and which players are saying it?"
 
-3. **Metadata context, not just raw review text**
+3. **Metadata context in addition to raw review text**
 
    With metadata like `timestamp_created`, `voted_up`, `author.playtime_at_review`, `author.playtime_forever`, it's possible to separate quick bounce-offs from long-term players and identify which complaints were genuinely influential.
 
