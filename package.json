@@ -4,6 +4,14 @@
   "description": "MCP server for Steam reviews, game metadata, and Steam Community discussions",
   "main": "build/server.js",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/icue/SteamReviewAndForumMcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/icue/SteamReviewAndForumMcp/issues"
+  },
+  "homepage": "https://github.com/icue/SteamReviewAndForumMcp#readme",
   "bin": {
     "steam-review-and-forum-mcp": "./build/server.js"
   },
@@ -34,6 +42,9 @@
   "files": [
     "build/**/*"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "engines": {
     "node": ">=22.19.0"
   }
