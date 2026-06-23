@@ -17,7 +17,7 @@ It can answer questions like:
 - "What do long-playtime negative reviewers complain about?"
 - "Compare English reviews with all-language reviews and tell me what differs."
 - "Read recent forum threads and tell me whether controller support is broken."
-- "Based on the reviews from the DLC pages, which DLCs of this game is worth buying?"
+- "Based on the reviews from the DLC pages, which DLCs of this game are worth buying?"
 
 ## Key Features
 
