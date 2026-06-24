@@ -52,6 +52,44 @@ npx -y steam-review-and-forum-mcp
 
 That command starts the MCP server over `stdio`. Most MCP clients will run it for you from their config, so you usually do not need to launch it manually.
 
+### Storage
+
+The server writes saved review and forum datasets to local disk. If `STEAM_REVIEW_EXPORT_DIR` and `STEAM_FORUM_EXPORT_DIR` are not set, the defaults are package-relative:
+
+- `.steam-review-exports/`
+- `.steam-forum-exports/`
+
+When using `npx`, that means the npm/npx-installed package copy. When running from a source checkout, that means the checkout root. The package-relative default works, but for durable storage you should set explicit absolute paths in your MCP client config.
+
+For JSON-based MCP configs, add `env`:
+
+```json
+{
+  "mcpServers": {
+    "steam-review-and-forum": {
+      "command": "npx",
+      "args": ["-y", "steam-review-and-forum-mcp"],
+      "env": {
+        "STEAM_REVIEW_EXPORT_DIR": "<absolute-path-to-review-exports>",
+        "STEAM_FORUM_EXPORT_DIR": "<absolute-path-to-forum-exports>"
+      }
+    }
+  }
+}
+```
+
+For Codex `config.toml`, add an environment table:
+
+```toml
+[mcp_servers.steam-review-and-forum]
+command = "npx"
+args = ["-y", "steam-review-and-forum-mcp"]
+
+[mcp_servers.steam-review-and-forum.env]
+STEAM_REVIEW_EXPORT_DIR = "<absolute-path-to-review-exports>"
+STEAM_FORUM_EXPORT_DIR = "<absolute-path-to-forum-exports>"
+```
+
 ### Claude Desktop
 
 Open Claude Desktop Settings > Developer > Edit Config, add this server to `claude_desktop_config.json`, then restart Claude Desktop:
@@ -185,8 +223,8 @@ For the exact MCP tool input schemas, see [docs/TOOL_SCHEMAS.md](docs/TOOL_SCHEM
 
 ## Operational Notes
 
-- Saved review datasets are stored in `.steam-review-exports/` by default.
-- Saved forum thread datasets are stored in `.steam-forum-exports/` by default.
+- Saved review datasets are stored in `STEAM_REVIEW_EXPORT_DIR` when set; otherwise they are stored in `.steam-review-exports/` next to the installed package.
+- Saved forum thread datasets are stored in `STEAM_FORUM_EXPORT_DIR` when set; otherwise they are stored in `.steam-forum-exports/` next to the installed package.
 - Stored exports are cleaned up automatically after `24` hours by default.
 - Review and forum fetches retry transient failures and `429` responses with backoff.
 - If the process restarts mid-fetch, later status or chunk reads can restart resumable jobs automatically.

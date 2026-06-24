@@ -52,6 +52,44 @@ npx -y steam-review-and-forum-mcp
 
 这条命令会通过 `stdio` 启动 MCP 服务器。大多数 MCP 客户端会根据配置自动启动它，通常不需要你手动运行。
 
+### 存储位置
+
+这个服务器会把已保存的评测和论坛数据集写入本地磁盘。如果没有设置 `STEAM_REVIEW_EXPORT_DIR` 和 `STEAM_FORUM_EXPORT_DIR`，默认路径是相对于包安装位置的：
+
+- `.steam-review-exports/`
+- `.steam-forum-exports/`
+
+使用 `npx` 时，这表示 npm/npx 安装出来的包副本目录。直接从源码仓库运行时，这表示仓库根目录。相对于包的默认路径可以正常工作，但如果你想要更稳定、可预期的持久化目录，建议在 MCP 客户端配置里显式设置绝对路径。
+
+对于 JSON 格式的 MCP 配置，可以添加 `env`：
+
+```json
+{
+  "mcpServers": {
+    "steam-review-and-forum": {
+      "command": "npx",
+      "args": ["-y", "steam-review-and-forum-mcp"],
+      "env": {
+        "STEAM_REVIEW_EXPORT_DIR": "<absolute-path-to-review-exports>",
+        "STEAM_FORUM_EXPORT_DIR": "<absolute-path-to-forum-exports>"
+      }
+    }
+  }
+}
+```
+
+对于 Codex 的 `config.toml`，添加环境变量表：
+
+```toml
+[mcp_servers.steam-review-and-forum]
+command = "npx"
+args = ["-y", "steam-review-and-forum-mcp"]
+
+[mcp_servers.steam-review-and-forum.env]
+STEAM_REVIEW_EXPORT_DIR = "<absolute-path-to-review-exports>"
+STEAM_FORUM_EXPORT_DIR = "<absolute-path-to-forum-exports>"
+```
+
 ### Claude Desktop
 
 打开 Claude Desktop Settings > Developer > Edit Config，把下面的配置加入 `claude_desktop_config.json`，然后重启 Claude Desktop：
@@ -185,8 +223,8 @@ node build/server.js
 
 ## 运行说明
 
-- 已保存的评测数据集默认存放在 `.steam-review-exports/`。
-- 已保存的讨论串数据集默认存放在 `.steam-forum-exports/`。
+- 设置 `STEAM_REVIEW_EXPORT_DIR` 时，已保存的评测数据集会存放在那里；否则会默认存放在已安装包旁边的 `.steam-review-exports/`。
+- 设置 `STEAM_FORUM_EXPORT_DIR` 时，已保存的讨论串数据集会存放在那里；否则会默认存放在已安装包旁边的 `.steam-forum-exports/`。
 - 这些数据集默认会在 `24` 小时后自动清理。
 - 评测和论坛抓取会对瞬时失败以及 `429` 响应做带 backoff 的重试。
 - 如果进程在抓取过程中重启，后续的状态查询或分块读取会自动尝试恢复可续传的任务。
