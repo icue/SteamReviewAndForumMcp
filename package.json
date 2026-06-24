@@ -1,6 +1,6 @@
 {
   "name": "steam-review-and-forum-mcp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "MCP server for Steam reviews, game metadata, and Steam Community discussions",
   "main": "build/server.js",
   "type": "module",
