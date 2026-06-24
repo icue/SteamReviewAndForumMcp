@@ -44,40 +44,62 @@ It can answer questions like:
 - Node.js `22.19+`
 - `npm`
 
-### Install and Build
+### Use from npm
 
 ```bash
-npm install
-npm run build
+npx -y steam-review-and-forum-mcp
 ```
 
-### Local Transport Only
-
-This server runs locally over `stdio`. Unlike hosted MCP servers, there is no `https://.../mcp` endpoint to paste into a remote connector field. Your MCP client needs to launch `node build/server.js` on your machine.
+That command starts the MCP server over `stdio`. Most MCP clients will run it for you from their config, so you usually do not need to launch it manually.
 
 ### Claude Desktop
 
-Claude Desktop now favors local desktop extensions for local MCP installs. This repo currently ships a raw local server, not a packaged `.mcpb` desktop extension, so the most direct options today are Claude Code, Cursor, Windsurf, or MCP Inspector.
+Open Claude Desktop Settings > Developer > Edit Config, add this server to `claude_desktop_config.json`, then restart Claude Desktop:
+
+```json
+{
+  "mcpServers": {
+    "steam-review-and-forum": {
+      "command": "npx",
+      "args": ["-y", "steam-review-and-forum-mcp"]
+    }
+  }
+}
+```
+
+### Codex CLI
+
+```bash
+codex mcp add steam-review-and-forum -- npx -y steam-review-and-forum-mcp
+```
+
+### Codex App
+
+In the Codex app, open Settings > Integrations & MCP and add a custom server, or edit `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.steam-review-and-forum]
+command = "npx"
+args = ["-y", "steam-review-and-forum-mcp"]
+```
 
 ### Claude Code
 
 ```bash
-claude mcp add steam-review-and-forum -- node <path-to-repo>/build/server.js
+claude mcp add steam-review-and-forum -- npx -y steam-review-and-forum-mcp
 ```
-
-Replace `<path-to-repo>` with the absolute path to your local checkout.
 
 ### Cursor
 
-Create `.cursor/mcp.json` in this repo:
+Create or update `.cursor/mcp.json`:
 
 ```json
 {
   "mcpServers": {
     "steam-review-and-forum": {
       "type": "stdio",
-      "command": "node",
-      "args": ["<path-to-repo>/build/server.js"]
+      "command": "npx",
+      "args": ["-y", "steam-review-and-forum-mcp"]
     }
   }
 }
@@ -91,8 +113,8 @@ Add to `~/.codeium/windsurf/mcp_config.json`:
 {
   "mcpServers": {
     "steam-review-and-forum": {
-      "command": "node",
-      "args": ["<path-to-repo>/build/server.js"]
+      "command": "npx",
+      "args": ["-y", "steam-review-and-forum-mcp"]
     }
   }
 }
@@ -106,30 +128,36 @@ Most local MCP clients accept a config shaped like this:
 {
   "mcpServers": {
     "steam-review-and-forum": {
-      "command": "node",
-      "args": ["<path-to-repo>/build/server.js"]
+      "command": "npx",
+      "args": ["-y", "steam-review-and-forum-mcp"]
     }
   }
 }
 ```
 
-Replace `<path-to-repo>` with the absolute path to your local checkout.
-
 ### MCP Inspector
 
 ```bash
-npx @modelcontextprotocol/inspector node build/server.js
+npx -y @modelcontextprotocol/inspector -- npx -y steam-review-and-forum-mcp
 ```
-
-Run that from the repo root.
 
 ### Run the Server Manually
 
 ```bash
-node build/server.js
+npx -y steam-review-and-forum-mcp
 ```
 
 Most MCP clients will start the server for you, so manual launch is mainly useful for debugging.
+
+### Development from Source
+
+If you want to run a local checkout instead of the published npm package:
+
+```bash
+npm install
+npm run build
+node build/server.js
+```
 
 ## Tools at a Glance
 

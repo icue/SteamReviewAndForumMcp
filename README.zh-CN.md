@@ -44,40 +44,62 @@
 - Node.js `22.19+`
 - `npm`
 
-### 安装与构建
+### 通过 npm 使用
 
 ```bash
-npm install
-npm run build
+npx -y steam-review-and-forum-mcp
 ```
 
-### 仅支持本地 `stdio` 传输
-
-这是一个本地 `stdio` MCP 服务器，不是托管在公网的远程 MCP。因此没有 `https://.../mcp` 这样的地址可直接粘贴到远程连接器中。你的 MCP 客户端需要在本机启动 `node build/server.js`。
+这条命令会通过 `stdio` 启动 MCP 服务器。大多数 MCP 客户端会根据配置自动启动它，通常不需要你手动运行。
 
 ### Claude Desktop
 
-Claude Desktop 现在更偏向通过本地 desktop extension 来安装本地 MCP。这个仓库目前提供的是原始本地服务，尚未打包成 `.mcpb` desktop extension，所以当前更直接的接入方式是 Claude Code、Cursor、Windsurf 或 MCP Inspector 等。
+打开 Claude Desktop Settings > Developer > Edit Config，把下面的配置加入 `claude_desktop_config.json`，然后重启 Claude Desktop：
+
+```json
+{
+  "mcpServers": {
+    "steam-review-and-forum": {
+      "command": "npx",
+      "args": ["-y", "steam-review-and-forum-mcp"]
+    }
+  }
+}
+```
+
+### Codex CLI
+
+```bash
+codex mcp add steam-review-and-forum -- npx -y steam-review-and-forum-mcp
+```
+
+### Codex App
+
+在 Codex app 中，打开 Settings > Integrations & MCP 并添加自定义 server，或者编辑 `~/.codex/config.toml`：
+
+```toml
+[mcp_servers.steam-review-and-forum]
+command = "npx"
+args = ["-y", "steam-review-and-forum-mcp"]
+```
 
 ### Claude Code
 
 ```bash
-claude mcp add steam-review-and-forum -- node <path-to-repo>/build/server.js
+claude mcp add steam-review-and-forum -- npx -y steam-review-and-forum-mcp
 ```
-
-把 `<path-to-repo>` 替换成你本地仓库的绝对路径。
 
 ### Cursor
 
-在仓库根目录创建 `.cursor/mcp.json`：
+创建或更新 `.cursor/mcp.json`：
 
 ```json
 {
   "mcpServers": {
     "steam-review-and-forum": {
       "type": "stdio",
-      "command": "node",
-      "args": ["<path-to-repo>/build/server.js"]
+      "command": "npx",
+      "args": ["-y", "steam-review-and-forum-mcp"]
     }
   }
 }
@@ -91,8 +113,8 @@ claude mcp add steam-review-and-forum -- node <path-to-repo>/build/server.js
 {
   "mcpServers": {
     "steam-review-and-forum": {
-      "command": "node",
-      "args": ["<path-to-repo>/build/server.js"]
+      "command": "npx",
+      "args": ["-y", "steam-review-and-forum-mcp"]
     }
   }
 }
@@ -106,30 +128,36 @@ claude mcp add steam-review-and-forum -- node <path-to-repo>/build/server.js
 {
   "mcpServers": {
     "steam-review-and-forum": {
-      "command": "node",
-      "args": ["<path-to-repo>/build/server.js"]
+      "command": "npx",
+      "args": ["-y", "steam-review-and-forum-mcp"]
     }
   }
 }
 ```
 
-把 `<path-to-repo>` 替换成你本地仓库的绝对路径。
-
 ### MCP Inspector
 
 ```bash
-npx @modelcontextprotocol/inspector node build/server.js
+npx -y @modelcontextprotocol/inspector -- npx -y steam-review-and-forum-mcp
 ```
-
-请在仓库根目录下运行。
 
 ### 手动运行服务
 
 ```bash
-node build/server.js
+npx -y steam-review-and-forum-mcp
 ```
 
 大多数 MCP 客户端会自动帮你拉起这个进程，所以手动运行通常只在调试时才需要。
+
+### 从源码开发
+
+如果你想运行本地仓库，而不是使用已发布的 npm 包：
+
+```bash
+npm install
+npm run build
+node build/server.js
+```
 
 ## 工具概览
 
